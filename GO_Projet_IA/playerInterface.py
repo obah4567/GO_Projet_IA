@@ -24,7 +24,7 @@ class PlayerInterface():
     def getPlayerName(self):
         ''' Must return the name of your AI player.'''
         #return "Not Defined"
-        return "Ousmane"
+        return "Ousmane&Fred"
 
     def getPlayerMove(self): 
         ''' This is where you will put your AI. This function must return the move as a standard
@@ -86,19 +86,122 @@ class PlayerInterface():
         else:
             print("I lost :(!!")
 
+### --- Calcul Degre de Liberte d'une piéce --- ###
+
+    def calculDegreLiberte(board, x, y)
+        degre = 0
+        if (board[Board.flatten((x - 1,y)) != 0):
+            degre += 1
+        if (board[Board.flatten((x + 1,y)) != 0):
+            degre += 1
+        if (board[Board.flatten((x,y + 1)) != 0):
+            degre += 1
+        if (board[Board.flatten((x,y - 1)) != 0):
+            degre += 1
+        return degre
+
+### --- Calcul Le Nombre d'amis d'une piéce --- ###
+
+    def nbAmis(board, x, y)
+        nbAmis = 0
+        id = board[Board.flatten((x,y))
+        if (board[Board.flatten((x-1,y)) == id):   
+            nbAmis += 1
+        if (board[Board.flatten((x+1,y)) == id):
+            nbAmis += 1
+        if (board[Board.flatten((x,y-1)) == id):
+            nbAmis += 1
+        if (board[Board.flatten((x,y+1)) == id):
+            nbAmis += 1
+        return nbAmis
+
 ##########################
 ### --- Heuristic --- ###
 ##########################
 
-    def heuristic (b):
-        poids = {'A':0, 'B':1, 'C':2, 'D':3, 'E':4, 'F':5, 'G':6, 'H':7, 'J':8}
-        score = 0
-        for x in b.piece_map().values():
-            x = x.symbol()
-            sign = 1 if x.isupper() else -1
-            x = x.lower()
-            score += sign * poids[x]
-        return score
+    def heuristique(board)
+        scoreWhite = 0
+        scoreBlack = 0
+        for (x = 0; x < _BOARDSIZE; x = x+1)
+            for (y = 0; y < _BOARDSIZE; y = y+1)
+                if board[Board.flatten((x,y)) == _BLACK :
+                    degre = calculDegreLiberte(board, x, y)
+                    switch degre:
+                        case 4:
+                            scoreBlack += 1
+                            break
+                        case 3:
+                            if nbAmis(board, x, y) == 0:
+                                scoreBlack+=3
+                            else:
+                                scoreBlack+=2
+                            break
+                        case 2:
+                            nbAmis = nbAmis(board, x, y)
+                            if nbAmis == 0:
+                                scoreBlack-=2
+                                break
+                            if nbAmis == 2:
+                                scoreBlack+=2
+                                break
+                            if nbAmis == 1:
+                                scoreBlack+=3
+                                break
+                        case 1:
+                            nbAmis = nbAmis(board, x, y)
+                            if nbAmis == 0:
+                                scoreBlack-=5
+                            if nbAmis == 3:
+                                scoreBlack+=3 
+                            if nbAmis == 1:
+                                scoreBlack-=2
+                            if nbAmis ==2:
+                                scoreBlack+=4
+                            break
+                        case 0:
+                            scoreBlack+=1
+                            break
+                if board[Board.flatten((x,y)) == _WHITE:
+                    degre = calculDegreLiberte(board, x, y)
+                    switch degre:
+                        case 4:
+                            scoreWhite += 1
+                            break
+                        case 3:
+                            if nbAmis(board, x, y) == 0:
+                                scoreWhite+=3
+                            else:
+                                scoreWhite+=2
+                            break
+                        case 2:
+                            nbAmis = nbAmis(board, x, y)
+                            if nbAmis == 2:
+                                scoreWhite-=2
+                                break
+                            if nbAmis == 0:
+                                scoreWhite+=2
+                                break
+                            if nbAmis == 1:
+                                scoreWhite+=3
+                                break
+                        case 1:
+                            nbAmis = nbAmis(board, x, y)
+                            if nbAmis == 0:
+                                scoreWhite-=5
+                                break
+                            if nbAmis == 3:
+                                scoreWhite+=3 
+                                break
+                            if nbAmis == 1:
+                                scoreWhite-=2
+                                break
+                            if nbAmis == 2:
+                                scoreWhite+=4
+                                break
+                        case 0:
+                            scoreWhite+=1
+                            break
+        return scoreWhite - scoreWhite
 
 
 ##########################
