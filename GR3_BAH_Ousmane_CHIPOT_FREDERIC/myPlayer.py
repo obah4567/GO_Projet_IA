@@ -209,8 +209,7 @@ class myPlayer(PlayerInterface):
         scoreWhite = 0
         degre = 0
         scoreBlack = 0
-        # for (x = 0; x < _BOARDSIZE; x = x+1)
-        #     for (y = 0; y < _BOARDSIZE; y = y+1)
+        
         for x in range (0, _BOARDSIZE, 1):
             for y in range (0, _BOARDSIZE, 1):
 
@@ -285,43 +284,6 @@ class myPlayer(PlayerInterface):
                             break
         return scoreBlack - scoreWhite
 
-
-    ##########################
-    ### --- MinMAX --- ###
-    ##########################
-
-    #détermine le meilleur coup pour l'IA
-
-        # def minmax( board, horizon):
-        #     if b.is_game_over() or horizon<=0:
-        #         return heuristique(b)
-
-        #     min_score = np.inf
-        #     for move in b.generate_legal_moves():
-        #         b.push(move)
-        #         min_score = min( min_score, maxmin( b, horizon-1))
-        #         b.pop()
-        #     return min_score
-
-    ##########################
-    ### --- MaxMIN --- ###
-    ##########################
-
-    #étermine le meilleur coup pour le joueur
-
-        #def maxmin( b, horizon=4):
-        # def maxmin( board, horizon):
-        #     if b.is_game_over() or horizon<=0:
-        #         return heuristique(b)
-
-        #     max_score = -np.inf
-        #     for move in b.generate_legal_moves():
-        #         b.push(move)
-        #         max_score = max( max_score, minmax( b, horizon-1))
-        #         b.pop()
-        #     return max_score
-
-        ########################
 
     ##########################
     ### --- MinValue   --- ###
