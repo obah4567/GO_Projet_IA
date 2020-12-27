@@ -159,7 +159,7 @@ class PlayerInterface():
                 degre += 1
             if (board[Board.flatten((x,y - 1))] != 0):
                 degre += 1
-            return degre
+            return 4-degre
 
 ### --- Calcul Le Nombre d'amis d'une piéce --- ###
 
@@ -245,80 +245,72 @@ class PlayerInterface():
 
                 if board[Board.flatten((x,y))] == _BLACK :
                     degre = calculDegreLiberte(board, x, y)
-                    switch degre:
-                        case 0:
+                    if degre==0 or degree==4:
                             scoreBlack += 1
                             break
-                        case 1:
-                            if nbAmis(board, x, y) == 0:
-                                scoreBlack+=3
-                            else:
-                                scoreBlack+=2
+                    if degre==3:
+                        if nbAmis(board, x, y) == 0:
+                            scoreBlack+=3
+                        else:
+                            scoreBlack+=2
+                        break
+                    if degre==2:
+                        nbAmis = nbAmis(board, x, y)
+                        if nbAmis == 0:
+                            scoreBlack-=2
                             break
-                        case 2:
-                            nbAmis = nbAmis(board, x, y)
-                            if nbAmis == 0:
-                                scoreBlack-=2
-                                break
-                            if nbAmis == 2:
-                                scoreBlack+=2
-                                break
-                            if nbAmis == 1:
-                                scoreBlack+=3
-                                break
-                        case 3:
-                            nbAmis = nbAmis(board, x, y)
-                            if nbAmis == 0:
-                                scoreBlack-=5
-                            if nbAmis == 3:
-                                scoreBlack+=3 
-                            if nbAmis == 1:
-                                scoreBlack-=2
-                            if nbAmis ==2:
-                                scoreBlack+=4
+                        if nbAmis == 2:
+                            scoreBlack+=2
                             break
-                        case 4:
-                            scoreBlack+=1
+                        if nbAmis == 1:
+                            scoreBlack+=3
                             break
+                    if degre==1:
+                        nbAmis = nbAmis(board, x, y)
+                        if nbAmis == 0:
+                            scoreBlack-=5
+                        if nbAmis == 3:
+                            scoreBlack+=3 
+                        if nbAmis == 1:
+                            scoreBlack-=2
+                        if nbAmis ==2:
+                            scoreBlack+=4
+                        break
                 if board[Board.flatten((x,y)) == _WHITE:
                     degre = calculDegreLiberte(board, x, y)
-                    switch degre:
-                        case 4:
-                            scoreWhite += 1
+                    if degre==0 or degre==4:
+                        scoreWhite += 1
+                        break
+                    if degre==3:
+                        if nbAmis(board, x, y) == 0:
+                            scoreWhite+=3
+                        else:
+                            scoreWhite+=2
+                        break
+                    if degre==2:
+                        nbAmis = nbAmis(board, x, y)
+                        if nbAmis == 2:
+                            scoreWhite-=2
                             break
-                        case 3:
-                            if nbAmis(board, x, y) == 0:
-                                scoreWhite+=3
-                            else:
-                                scoreWhite+=2
+                        if nbAmis == 0:
+                            scoreWhite+=2
                             break
-                        case 2:
-                            nbAmis = nbAmis(board, x, y)
-                            if nbAmis == 2:
-                                scoreWhite-=2
-                                break
-                            if nbAmis == 0:
-                                scoreWhite+=2
-                                break
-                            if nbAmis == 1:
-                                scoreWhite+=3
-                                break
-                        case 1:
-                            nbAmis = nbAmis(board, x, y)
-                            if nbAmis == 0:
-                                scoreWhite-=5
-                                break
-                            if nbAmis == 3:
-                                scoreWhite+=3 
-                                break
-                            if nbAmis == 1:
-                                scoreWhite-=2
-                                break
-                            if nbAmis == 2:
-                                scoreWhite+=4
-                                break
-                        case 0:
-                            scoreWhite+=1
+                        if nbAmis == 1:
+                            scoreWhite+=3
+                            break
+                    if degre==1:
+                        nbAmis = nbAmis(board, x, y)
+                        if nbAmis == 0:
+                            scoreWhite-=5
+                            break
+                        if nbAmis == 3:
+                            scoreWhite+=3 
+                            break
+                        if nbAmis == 1:
+                            scoreWhite-=2
+                            break
+                        if nbAmis == 2:
+                            scoreWhite+=4
                             break
         return scoreWhite - scoreWhite
 
