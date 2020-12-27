@@ -7,7 +7,7 @@ class PlayerInterface():
     - the gnugo player
     '''
 
-    ##b = Goban.Board()
+    board = Goban.Board()
 
     #https://stackabuse.com/minimax-and-alpha-beta-pruning-in-python/
     #https://adrien.poupa.fr/tpe/algorithme-minmax
@@ -88,30 +88,30 @@ class PlayerInterface():
 
 ### --- Calcul Degre de Liberte d'une piéce --- ###
 
-    def calculDegreLiberte(board, x, y)
+    def calculDegreLiberte(board, x, y):
         degre = 0
-        if (board[Board.flatten((x - 1,y)) != 0):
+        if (board[Board.flatten((x - 1,y))] != 0):
             degre += 1
-        if (board[Board.flatten((x + 1,y)) != 0):
+        if (board[Board.flatten((x + 1,y))] != 0):
             degre += 1
-        if (board[Board.flatten((x,y + 1)) != 0):
+        if (board[Board.flatten((x,y + 1))] != 0):
             degre += 1
-        if (board[Board.flatten((x,y - 1)) != 0):
+        if (board[Board.flatten((x,y - 1))] != 0):
             degre += 1
         return degre
 
 ### --- Calcul Le Nombre d'amis d'une piéce --- ###
 
-    def nbAmis(board, x, y)
+    def nbAmis(board, x, y):
         nbAmis = 0
-        id = board[Board.flatten((x,y))
-        if (board[Board.flatten((x-1,y)) == id):   
+        id = board[Board.flatten((x,y))]
+        if (board[Board.flatten((x-1,y))] == id):   
             nbAmis += 1
-        if (board[Board.flatten((x+1,y)) == id):
+        if (board[Board.flatten((x+1,y))] == id):
             nbAmis += 1
-        if (board[Board.flatten((x,y-1)) == id):
+        if (board[Board.flatten((x,y-1))] == id):
             nbAmis += 1
-        if (board[Board.flatten((x,y+1)) == id):
+        if (board[Board.flatten((x,y+1))] == id):
             nbAmis += 1
         return nbAmis
 
@@ -119,12 +119,16 @@ class PlayerInterface():
 ### --- Heuristic --- ###
 ##########################
 
-    def heuristique(board)
+    def heuristique(board):
         scoreWhite = 0
+        degre = 0
         scoreBlack = 0
-        for (x = 0; x < _BOARDSIZE; x = x+1)
-            for (y = 0; y < _BOARDSIZE; y = y+1)
-                if board[Board.flatten((x,y)) == _BLACK :
+        # for (x = 0; x < _BOARDSIZE; x = x+1)
+        #     for (y = 0; y < _BOARDSIZE; y = y+1)
+        for x in range (0, _BOARDSIZE, 1):
+            for y in range (0, _BOARDSIZE, 1):
+
+                if board[Board.flatten((x,y))] == _BLACK :
                     degre = calculDegreLiberte(board, x, y)
                     switch degre:
                         case 4:
@@ -210,16 +214,16 @@ class PlayerInterface():
 
 #détermine le meilleur coup pour l'IA
 
-    def minmax( b, horizon):
-        if b.is_game_over() or horizon<=0:
-            return heuristique(b)
+    # def minmax( board, horizon):
+    #     if b.is_game_over() or horizon<=0:
+    #         return heuristique(b)
 
-        min_score = np.inf
-        for move in b.generate_legal_moves():
-            b.push(move)
-            min_score = min( min_score, maxmin( b, horizon-1))
-            b.pop()
-        return min_score
+    #     min_score = np.inf
+    #     for move in b.generate_legal_moves():
+    #         b.push(move)
+    #         min_score = min( min_score, maxmin( b, horizon-1))
+    #         b.pop()
+    #     return min_score
 
 ##########################
 ### --- MaxMIN --- ###
@@ -228,13 +232,83 @@ class PlayerInterface():
 #étermine le meilleur coup pour le joueur
 
     #def maxmin( b, horizon=4):
-    def maxmin( b, horizon):
-        if b.is_game_over() or horizon<=0:
+    # def maxmin( board, horizon):
+    #     if b.is_game_over() or horizon<=0:
+    #         return heuristique(b)
+
+    #     max_score = -np.inf
+    #     for move in b.generate_legal_moves():
+    #         b.push(move)
+    #         max_score = max( max_score, minmax( b, horizon-1))
+    #         b.pop()
+    #     return max_score
+
+    ########################
+
+    def min_value( board, alpha=-np.inf, beta=np.inf, horizon):
+        if board.is_game_over() or horizon<=0:
             return heuristique(b)
 
+        for move in b.generate_legal_moves():
+            board.push(move)
+            beta = min( beta, max_value(board, alpha, beta, horizon-1))
+            board.pop()
+            if beta <= alpha :
+                return alpha
+        return beta
+
+    def max_value( board, alpha=-np.inf, beta=np.inf, horizon):
+        if board.is_game_over() or horizon<=0:
+            return heuristique(b)
+
+        for move in b.generate_legal_moves():
+            board.push(move)
+            alpha = max( alpha, min_value( board, alpha, beta, horizon-1))
+            board.pop()
+            if alpha >= beta:
+                return beta
+        return alpha
+
+    def meilleur_coups_alphabeta( board, horizon):
+        best_move = None
         max_score = -np.inf
         for move in b.generate_legal_moves():
-            b.push(move)
-            max_score = max( max_score, minmax( b, horizon-1))
-            b.pop()
-        return max_score
+            board.push(move)
+            score = min_value( board, horizon = horizon-1)
+            if max_score < score:
+                max_score = score
+                best_move = move
+            board.pop()
+        return best_move
+
+# ---------------------------------------- TESTS --------------------------------------# 
+
+
+start_game = time.time()
+print(board)
+while not board.is_game_over():
+    print("Ici")
+    start = time.time()
+
+    board.push(meilleur_coups_alphabeta(board, horizon = 3))
+    elapsed_time = time.time() - start
+    print(board)
+    print("Move played in ", elapsed_time)
+    print("-------------------------------")
+    if board.is_game_over():
+        break
+    print("Black to move:")
+    start = time.time()
+    #black_move = minimaxAB(board, 3, False)
+    black_move = randomMove(board)
+    board.push(black_move)
+    elapsed_time = time.time() - start
+    print(board)
+    #print(black_move.uci(), " played in ", elapsed_time)
+    print("-------------------------------")
+print("Result: ", board.result())
+print("Game duration: ", time.time() - start_game)
+
+
+# -----------------------------------------------TESTS-------------------------------#
+ 
