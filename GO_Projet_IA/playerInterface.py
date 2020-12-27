@@ -159,7 +159,7 @@ class PlayerInterface():
                 degre += 1
             if (board[Board.flatten((x,y - 1))] != 0):
                 degre += 1
-            return 4-degre
+        return 4-degre
 
 ### --- Calcul Le Nombre d'amis d'une piéce --- ###
 
