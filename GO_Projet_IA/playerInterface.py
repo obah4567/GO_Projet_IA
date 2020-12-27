@@ -1,3 +1,7 @@
+import Goban
+import numpy
+import time
+
 class PlayerInterface():
     ''' Abstract class that must be implemented by you AI. Typically, a file "myPlayer.py" will implement it for your
     AI to enter the tournament.
@@ -353,11 +357,11 @@ class PlayerInterface():
 
     ########################
 
-    def min_value( board, alpha=-np.inf, beta=np.inf, horizon ):
+    def min_value( board, horizon, alpha=-numpy.inf, beta=numpy.inf):
         if board.is_game_over() or horizon<=0:
-            return heuristique(b)
+            return heuristique(board)
 
-        for move in b.generate_legal_moves():
+        for move in board.generate_legal_moves():
             board.push(move)
             beta = min( beta, max_value(board, alpha, beta, horizon-1))
             board.pop()
@@ -365,7 +369,7 @@ class PlayerInterface():
                 return alpha
         return beta
 
-    def max_value( board, alpha=-np.inf, beta=np.inf, horizon):
+    def max_value( board, horizon, alpha=-numpy.inf, beta=numpy.inf):
         if board.is_game_over() or horizon<=0:
             return heuristique(b)
 
@@ -379,44 +383,44 @@ class PlayerInterface():
 
     def meilleur_coups_alphabeta( board, horizon):
         best_move = None
-        max_score = -np.inf
-        for move in b.generate_legal_moves():
+        max_score = -numpy.inf
+        for move in board.generate_legal_moves():
             board.push(move)
-            score = min_value( board, horizon = horizon-1)
+            score = min_value( board, horizon-1)
             if max_score < score:
                 max_score = score
                 best_move = move
             board.pop()
         return best_move
-
+'''
 # ---------------------------------------- TESTS --------------------------------------# 
+    board = Goban.Board()
 
-
-start_game = time.time()
-print(board)
-while not board.is_game_over():
-    print("Ici")
-    start = time.time()
-
-    board.push(meilleur_coups_alphabeta(board, horizon = 3))
-    elapsed_time = time.time() - start
+    start_game = time.time()
     print(board)
-    print("Move played in ", elapsed_time)
-    print("-------------------------------")
-    if board.is_game_over():
-        break
-    print("Black to move:")
-    start = time.time()
-    #black_move = minimaxAB(board, 3, False)
-    black_move = randomMove(board)
-    board.push(black_move)
-    elapsed_time = time.time() - start
-    print(board)
-    #print(black_move.uci(), " played in ", elapsed_time)
-    print("-------------------------------")
-print("Result: ", board.result())
-print("Game duration: ", time.time() - start_game)
+    while not board.is_game_over():
+        print("Ici")
+        start = time.time()
+
+        board.push(meilleur_coups_alphabeta(board, 3))
+        elapsed_time = time.time() - start
+        print(board)
+        print("Move played in ", elapsed_time)
+        print("-------------------------------")
+        if board.is_game_over():
+            break
+        print("Black to move:")
+        start = time.time()
+        #black_move = minimaxAB(board, 3, False)
+        black_move = randomMove(board)
+        board.push(black_move)
+        elapsed_time = time.time() - start
+        print(board)
+        #print(black_move.uci(), " played in ", elapsed_time)
+        print("-------------------------------")
+    print("Result: ", board.result())
+    print("Game duration: ", time.time() - start_game)
 
 
 # -----------------------------------------------TESTS-------------------------------#
- 
+ '''
