@@ -104,7 +104,7 @@ class PlayerInterface():
                         degre += 1
                     if (board[Board.flatten((x,y - 1))] != 0):
                         degre += 1
-                else:
+                if y > 0 and y < 8:
                     degre+=1
                     if (board[Board.flatten((x + 1,y))] != 0):
                         degre += 1
@@ -125,7 +125,7 @@ class PlayerInterface():
                         degre += 1
                     if (board[Board.flatten((x,y - 1))] != 0):
                         degre += 1
-                else:
+                if y > 0 and y < 8:
                     degre+=1
                     if (board[Board.flatten((x-1,y))] != 0):
                         degre += 1
@@ -133,7 +133,7 @@ class PlayerInterface():
                         degre += 1
                     if (board[Board.flatten((x,y + 1))] != 0):
                         degre += 1
-            else:
+            if x > 0 and x < 8:
                 if y==0:
                     degre+=1
                     if (board[Board.flatten((x-1,y))] != 0):
@@ -159,7 +159,8 @@ class PlayerInterface():
                 degre += 1
             if (board[Board.flatten((x,y - 1))] != 0):
                 degre += 1
-        return 4-degre
+        
+        return 4 - degre
 
 ### --- Calcul Le Nombre d'amis d'une piéce --- ###
 
@@ -276,7 +277,7 @@ class PlayerInterface():
                         if nbAmis ==2:
                             scoreBlack+=4
                         break
-                if board[Board.flatten((x,y)) == _WHITE:
+                if  board[Board.flatten((x,y))] == _WHITE:
                     degre = calculDegreLiberte(board, x, y)
                     if degre==0 or degre==4:
                         scoreWhite += 1
@@ -352,7 +353,7 @@ class PlayerInterface():
 
     ########################
 
-    def min_value( board, alpha=-np.inf, beta=np.inf, horizon):
+    def min_value( board, alpha=-np.inf, beta=np.inf, horizon ):
         if board.is_game_over() or horizon<=0:
             return heuristique(b)
 
