@@ -138,7 +138,8 @@ class Board:
             for c in range(2):
                 self._positionHashes[x][c] = getProperRandom()
       self._currentHash = getProperRandom() 
-      self._passHash = getProperRandom() 
+      self._passHashB = getProperRandom() 
+      self._passHashW = getProperRandom() 
 
       self._seenHashes = set()
 
@@ -255,7 +256,7 @@ class Board:
                 self._gameOver = True
             else:
                 self._lastPlayerHasPassed = True
-            self._currentHash ^= self._passHash
+            self._currentHash ^= self._passHashB if self._nextPlayer == Board._BLACK else self._passHashW
 
         self._seenHashes.add(self._currentHash)
         self._historyMoveNames.append(self.flat_to_name(fcoord))
@@ -757,5 +758,4 @@ class Board:
         board += '</svg></svg>'
         #'\    <text x="100" y="100" font-size="30" font-color="black"> Hello </text>\
         return board
-
 
