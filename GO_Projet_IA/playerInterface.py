@@ -90,29 +90,144 @@ class PlayerInterface():
 
     def calculDegreLiberte(board, x, y):
         degre = 0
-        if (board[Board.flatten((x - 1,y))] != 0):
-            degre += 1
-        if (board[Board.flatten((x + 1,y))] != 0):
-            degre += 1
-        if (board[Board.flatten((x,y + 1))] != 0):
-            degre += 1
-        if (board[Board.flatten((x,y - 1))] != 0):
-            degre += 1
-        return degre
+        if x==0 or y==0 or x==8 or y==8:
+            if x==0:
+                if y==0:
+                    degre+=2
+                    if (board[Board.flatten((x + 1,y))] != 0):
+                        degre += 1
+                    if (board[Board.flatten((x,y + 1))] != 0):
+                        degre += 1
+                if y==8:
+                    degre+=2
+                    if (board[Board.flatten((x + 1,y))] != 0):
+                        degre += 1
+                    if (board[Board.flatten((x,y - 1))] != 0):
+                        degre += 1
+                else:
+                    degre+=1
+                    if (board[Board.flatten((x + 1,y))] != 0):
+                        degre += 1
+                    if (board[Board.flatten((x,y - 1))] != 0):
+                        degre += 1
+                    if (board[Board.flatten((x,y + 1))] != 0):
+                        degre += 1
+            if x==8:
+                if y==0:
+                    degre+=2
+                    if (board[Board.flatten((x-1,y))] != 0):
+                        degre += 1
+                    if (board[Board.flatten((x,y + 1))] != 0):
+                        degre += 1
+                if y==8:
+                    degre+=2
+                    if (board[Board.flatten((x-1,y))] != 0):
+                        degre += 1
+                    if (board[Board.flatten((x,y - 1))] != 0):
+                        degre += 1
+                else:
+                    degre+=1
+                    if (board[Board.flatten((x-1,y))] != 0):
+                        degre += 1
+                    if (board[Board.flatten((x,y - 1))] != 0):
+                        degre += 1
+                    if (board[Board.flatten((x,y + 1))] != 0):
+                        degre += 1
+            else:
+                if y==0:
+                    degre+=1
+                    if (board[Board.flatten((x-1,y))] != 0):
+                        degre += 1
+                    if (board[Board.flatten((x + 1,y))] != 0):
+                        degre += 1
+                    if (board[Board.flatten((x,y+1))] != 0):
+                        degre+=1
+                if y==8:
+                    degre+=1
+                    if (board[Board.flatten((x-1,y))] != 0):
+                        degre += 1
+                    if (board[Board.flatten((x + 1,y))] != 0):
+                        degre += 1
+                    if (board[Board.flatten((x,y-1))] != 0):
+                        degre+=1
+        else:
+            if (board[Board.flatten((x - 1,y))] != 0):
+                degre += 1
+            if (board[Board.flatten((x + 1,y))] != 0):
+                degre += 1
+            if (board[Board.flatten((x,y + 1))] != 0):
+                degre += 1
+            if (board[Board.flatten((x,y - 1))] != 0):
+                degre += 1
+            return degre
 
 ### --- Calcul Le Nombre d'amis d'une piéce --- ###
 
     def nbAmis(board, x, y):
         nbAmis = 0
         id = board[Board.flatten((x,y))]
-        if (board[Board.flatten((x-1,y))] == id):   
-            nbAmis += 1
-        if (board[Board.flatten((x+1,y))] == id):
-            nbAmis += 1
-        if (board[Board.flatten((x,y-1))] == id):
-            nbAmis += 1
-        if (board[Board.flatten((x,y+1))] == id):
-            nbAmis += 1
+        if x==0 or x==8 or y==0 or y==8:
+            if x==0:
+                if y==0:
+                    if (board[Board.flatten((x+1,y))] == id):
+                        nbAmis += 1
+                    if (board[Board.flatten((x,y+1))] == id):
+                        nbAmis += 1
+                if y==8:
+                    if (board[Board.flatten((x,y-1))] == id):
+                        nbAmis += 1
+                    if (board[Board.flatten((x+1,y))] == id):
+                        nbAmis += 1
+                else:
+                    if (board[Board.flatten((x,y-1))] == id):
+                        nbAmis += 1
+                    if (board[Board.flatten((x+1,y))] == id):
+                        nbAmis += 1
+                    if (board[Board.flatten((x,y-1))] == id):
+                        nbAmis += 1
+            if x==8:
+                if y==0:
+                    if (board[Board.flatten((x,y+1))] == id):
+                        nbAmis += 1
+                    if (board[Board.flatten((x-1,y))] == id):
+                        nbAmis += 1
+                if y==8:
+                    if (board[Board.flatten((x,y-1))] == id):
+                        nbAmis += 1
+                    if (board[Board.flatten((x-1,y))] == id):
+                        nbAmis += 1
+                else:
+                    if (board[Board.flatten((x,y-1))] == id):
+                        nbAmis += 1
+                    if (board[Board.flatten((x-1,y))] == id):
+                        nbAmis += 1
+                    if (board[Board.flatten((x,y+1))] == id):
+                        nbAmis += 1
+            else:
+                if y==0:
+                    if (board[Board.flatten((x,y+1))] == id):
+                        nbAmis += 1
+                    if (board[Board.flatten((x-1,y))] == id):
+                        nbAmis += 1
+                    if (board[Board.flatten((x+1,y))] == id):
+                        nbAmis += 1
+                if y==8:
+                    if (board[Board.flatten((x,y-1))] == id):
+                        nbAmis += 1
+                    if (board[Board.flatten((x-1,y))] == id):
+                        nbAmis += 1
+                    if (board[Board.flatten((x+1,y))] == id):
+                        nbAmis += 1
+                    
+        else:
+            if (board[Board.flatten((x-1,y))] == id):   
+                nbAmis += 1
+            if (board[Board.flatten((x+1,y))] == id):
+                nbAmis += 1
+            if (board[Board.flatten((x,y-1))] == id):
+                nbAmis += 1
+            if (board[Board.flatten((x,y+1))] == id):
+                nbAmis += 1
         return nbAmis
 
 ##########################
@@ -131,10 +246,10 @@ class PlayerInterface():
                 if board[Board.flatten((x,y))] == _BLACK :
                     degre = calculDegreLiberte(board, x, y)
                     switch degre:
-                        case 4:
+                        case 0:
                             scoreBlack += 1
                             break
-                        case 3:
+                        case 1:
                             if nbAmis(board, x, y) == 0:
                                 scoreBlack+=3
                             else:
@@ -151,7 +266,7 @@ class PlayerInterface():
                             if nbAmis == 1:
                                 scoreBlack+=3
                                 break
-                        case 1:
+                        case 3:
                             nbAmis = nbAmis(board, x, y)
                             if nbAmis == 0:
                                 scoreBlack-=5
@@ -162,7 +277,7 @@ class PlayerInterface():
                             if nbAmis ==2:
                                 scoreBlack+=4
                             break
-                        case 0:
+                        case 4:
                             scoreBlack+=1
                             break
                 if board[Board.flatten((x,y)) == _WHITE:
